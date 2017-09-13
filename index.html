@@ -1,0 +1,57 @@
+
+<html>
+
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="src/css/style.css">
+		
+	</head>
+
+	<body>
+
+		<img id="img-robot" src="src/img/robot.png" width="10" height="10">
+
+		<div class="container">
+			
+			<h2>JavaScript Robot Simulator</h2>
+			<div> 
+				<strong>Type command here: </strong>
+
+			    <input type="text" id="command" onfocusout="processCommand(this.value)" onkeydown="if (event.keyCode == 13) processCommand(this.value);"> 
+			    <span id="error"></span>
+
+
+			    <p>OR</p>
+			    <strong>Use control buttons: </strong>
+			</div>
+
+
+			<div>
+
+				<form>
+					
+					<span>X: <input type="number"></span>
+					<span>Y: <input type="number"> </span>
+					<input type="submit" value="Place">
+				</form>
+				
+				<div class="button-container">
+					<button>Move</button>
+					<button>Turn Left</button>
+					<button>Turn Right</button>
+				
+				</div>
+
+			</div>
+
+			<div> <strong>Report: <span id="report"></span></strong>
+			</div>
+			<canvas id="canvas" width="551" height="551"></canvas>
+		</div>
+		
+	</body>
+
+<script src="src/js/script.js"></script>
+
+</html>
+

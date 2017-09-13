@@ -1,0 +1,27 @@
+.container {
+ 	margin: 0 auto;
+ 	width: 50%;
+}
+
+.button-container {
+	padding: 1em;
+}
+
+canvas {
+	padding: 1em;
+}
+
+form {
+	display: block;
+	padding: 1em;
+}
+
+p {
+	display: block;
+	
+	padding: .5em;
+}
+
+input {
+	width: 20%;
+}
