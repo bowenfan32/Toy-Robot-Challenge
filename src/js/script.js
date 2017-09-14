@@ -140,7 +140,7 @@ function isValid(x, y, direction) {
     if (isNaN(x) || isNaN(y)) {
         promptError("Please enter valid number!");
         return false;
-    } else if (x < 0 && x > 4 && y < 0 && y > 4) {
+    } else if (x < 0 || x > 4 || y < 0 || y > 4) {
         return false;
     } else if (!dir.includes(direction)) {
         promptError("Please enter valid direction!");
