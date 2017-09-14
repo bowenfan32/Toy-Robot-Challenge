@@ -17,8 +17,6 @@ function promptError(err) {
     output.innerHTML = err;
 }
     
-
-
 /*
  Core functions
 */
@@ -74,6 +72,8 @@ function move() {
                 }
                 break;
         }
+    } else {
+        promptError("Please place robot first!");
     }
     
 }
@@ -88,6 +88,8 @@ function turnRight() {
             robot.dir = dir[index + 1];
         }
         report();
+    } else {
+        promptError("Please place robot first!");
     }
 }
 
@@ -101,6 +103,8 @@ function turnLeft() {
             robot.dir = dir[index - 1];
         }
         report();
+    } else {
+        promptError("Please place robot first!");
     }
 }
 
@@ -176,7 +180,6 @@ function outOfBound(newMove) {
 }
 
 
-
 /*
  Tests
 */
@@ -215,9 +218,7 @@ function runTest() {
                 promptError("Please enter valid command");
                 break;
         }
-
     }
-
 }
 
 
