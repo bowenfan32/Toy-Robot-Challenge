@@ -257,12 +257,7 @@ function clearRobot() {
 }
 
 function drawRobot(newRobot) {
-    // context.scale(1, -1);
-    // context.save();
-    // context.translate(50, 50);
-    // context.scale(1, -1);
-
-     context.drawImage(img, robot.x + 5, robot.y + 5, 80, 80);
+     context.drawImage(img, robot.x, robot.y, 80, 80);
      report();
 }
 
