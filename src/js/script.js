@@ -5,6 +5,7 @@ var error = document.getElementById("error");
 var canvas = document.getElementById("canvas");
 var img = document.getElementById("img-robot");
 var context = canvas.getContext("2d");
+var offset = 10;
 
 var dir = ["NORTH", "EAST", "SOUTH", "WEST"];
 
@@ -18,6 +19,21 @@ function outOfBound(newMove) {
         promptError("You shall not pass!");
         return true;
     } else return false;
+}
+
+function place() {
+    error.innerHTML = "";
+    var x = document.getElementById("x-axis").value;
+    var y = document.getElementById("y-axis").value;
+    if (x >= 0 && x <=4 && y >=0 && y <=4) {
+        clearRobot();
+        robot = new Robot(x * 100 + offset, y * 100 + offset, "NORTH");
+        drawRobot(robot);
+        return false; // Prevent page refresh
+    } else {
+        promptError("Index out of bound!");
+        return false;
+    }
 }
 
 
@@ -75,7 +91,7 @@ function turnLeft() {
 
 
 function init() {
-    robot = new Robot(0 + 10, 0 + 10, "NORTH");
+    robot = new Robot(0 + offset, 0 + offset, "NORTH");
     for (var x = 1; x < 601; x += 100) {
         context.moveTo(x, 1);
         context.lineTo(x, 501);
@@ -89,7 +105,7 @@ function init() {
     context.strokeStyle = "#000";
     context.stroke();
     context.transform(1, 0, 0, -1, 0, canvas.height)
-    drawRobot(robot);
+    // drawRobot(robot);
 }
 
 function Robot(x, y, dir) {
