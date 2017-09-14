@@ -15,29 +15,69 @@ function promptError(err) {
 
 
 function move() {
+   
     switch(robot.dir) {
+
         case "NORTH":
             clearRobot();
             robot = new Robot( robot.x , robot.y + 100, robot.dir);
             drawRobot(robot);
+            break;
         case "EAST":
             clearRobot();
             robot = new Robot(robot.x + 100, robot.y, robot.dir);
             drawRobot(robot);
+            break;
         case "SOUTH":
             clearRobot();
             robot = new Robot(robot.x, robot.y - 100, robot.dir);
             drawRobot(robot);
+            break;
         case "WEST":
             clearRobot();
             robot = new Robot(robot.x - 100, robot.y, robot.dir);
             drawRobot(robot);
+            break;
+    }
+}
+
+function turnRight() {
+    switch(robot.dir) {
+        case "NORTH":
+            robot.dir = "EAST";
+            break;
+        case "EAST":
+            robot.dir = "SOUTH";
+            break;
+        case "SOUTH":
+            robot.dir = "WEST";
+            break;
+        case "WEST":
+            robot.dir = "NORTH";
+            break;
+    }
+}
+
+function turnLeft() {
+    switch(robot.dir) {
+        case "NORTH":
+            robot.dir = "WEST";
+            break;
+        case "EAST":
+            robot.dir = "NORTH";
+            break;
+        case "SOUTH":
+            robot.dir = "EAST";
+            break;
+        case "WEST":
+            robot.dir = "SOUTH";
+            break;
     }
 }
 
 
 function init() {
-    robot = new Robot(0 + 10, 0 + 10, "EAST");
+    robot = new Robot(0 + 10, 0 + 10, "NORTH");
     for (var x = 1; x < 601; x += 100) {
         context.moveTo(x, 1);
         context.lineTo(x, 501);
