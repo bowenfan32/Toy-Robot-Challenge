@@ -22,7 +22,7 @@ function promptError(err) {
 */
 
 function place() {
-    error.innerHTML = ""; // Clears previous error
+    promptError(""); // Clears previous error
     var x = document.getElementById("x-axis").value;
     var y = document.getElementById("y-axis").value;
     var dir = document.getElementById("direction").value.toUpperCase();
@@ -40,7 +40,7 @@ function place() {
 }
 
 function move() {
-    error.innerHTML = "";
+    promptError("");
     if (robot != null) {
         switch(robot.dir) {
             case "NORTH":
@@ -109,7 +109,12 @@ function turnLeft() {
 }
 
 function report() {
-    reportField.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
+    if (robot != null) {
+        reportField.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
+    } else {
+        promptError("Please place robot first!");
+    }
+    
 }
 
 
@@ -118,7 +123,7 @@ function report() {
 */
 
 function parseCommand(command) {
-    error.innerHTML = "";
+    promptError("");
     splitCommand = command.toUpperCase().split(" ");
 
     switch(splitCommand[0]) {
@@ -145,6 +150,9 @@ function parseCommand(command) {
             break;
         case "RIGHT":
             turnRight();
+            break;
+        case "REPORT":
+            report();
             break;
         default:
             promptError("Please enter valid command");
@@ -210,10 +218,12 @@ function runTest() {
                 turnRight();
                 break;
             case "REPORT":
-                report();
-                var output = document.getElementById("output");  
-                output.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
-                break;
+                if (robot != null) {
+                    report();
+                    var output = document.getElementById("output"); 
+                    output.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
+                    break;
+                }
             default:
                 promptError("Please enter valid command");
                 break;
