@@ -20,7 +20,7 @@ function move() {
 
         case "NORTH":
             clearRobot();
-            robot = new Robot( robot.x , robot.y + 100, robot.dir);
+            robot = new Robot(robot.x , robot.y + 100, robot.dir);
             drawRobot(robot);
             break;
         case "EAST":
@@ -42,36 +42,20 @@ function move() {
 }
 
 function turnRight() {
-    switch(robot.dir) {
-        case "NORTH":
-            robot.dir = "EAST";
-            break;
-        case "EAST":
-            robot.dir = "SOUTH";
-            break;
-        case "SOUTH":
-            robot.dir = "WEST";
-            break;
-        case "WEST":
-            robot.dir = "NORTH";
-            break;
+    var index = dir.indexOf(robot.dir);
+    if (index == 3) {
+        robot.dir = dir[0];
+    } else {
+        robot.dir = dir[index + 1];
     }
 }
 
 function turnLeft() {
-    switch(robot.dir) {
-        case "NORTH":
-            robot.dir = "WEST";
-            break;
-        case "EAST":
-            robot.dir = "NORTH";
-            break;
-        case "SOUTH":
-            robot.dir = "EAST";
-            break;
-        case "WEST":
-            robot.dir = "SOUTH";
-            break;
+    var index = dir.indexOf(robot.dir);
+    if (index == 0) {
+        robot.dir = dir[3];
+    } else {
+        robot.dir = dir[index - 1];
     }
 }
 
