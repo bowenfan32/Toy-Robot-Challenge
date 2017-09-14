@@ -1,0 +1,51 @@
+-----Test1-----
+PLACE 0,0,NORTH
+MOVE
+REPORT
+
+
+Expected output
+0,1,NORTH
+
+
+-----Test2-----
+
+PLACE 0,0,NORTH
+LEFT
+REPORT
+
+
+Expected output
+0,0,WEST
+
+
+-----Test3-----
+PLACE 1,2,EAST
+MOVE
+MOVE
+LEFT
+MOVE
+REPORT
+
+
+Expected output
+3,3,NORTH
+
+
+-----Test4-----
+RANDOMCOMMAND
+HELLOWORLD
+
+
+
+Expected output
+Please enter valid command!
+
+
+-----Test5-----
+PLACE 10,10,WEST
+
+
+
+Expected output
+Index out of bound!
