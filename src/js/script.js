@@ -1,6 +1,8 @@
 
 var robot = null;
 
+
+
 var error = document.getElementById("error");
 var canvas = document.getElementById("canvas");
 var reportField = document.getElementById("report");
@@ -30,6 +32,9 @@ function place() {
         clearRobot();
         robot = new Robot(x * 100 + offset, y * 100 + offset, "NORTH");
         drawRobot(robot);
+        document.getElementById("moveBtn").disabled = false;
+        document.getElementById("rightBtn").disabled = false;
+        document.getElementById("leftBtn").disabled = false;
         return false; // Prevent page refresh
     } else {
         promptError("Index out of bound!");
