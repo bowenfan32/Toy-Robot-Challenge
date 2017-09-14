@@ -17,7 +17,7 @@
 			<div> 
 				<strong>Type command here: </strong>
 
-			    <input type="text" id="command" onkeydown="if (event.keyCode == 13) parseCommand(this.value);"> 
+			    <input type="text" id="command"> 
 			    <button id="commandBtn">Enter</button>
 			    <span id="error"></span>
 
@@ -30,12 +30,13 @@
 				<form onsubmit="return place()">
 					<span>X: <input id="x-axis" type="number"></span>
 					<span>Y: <input id="y-axis" type="number"> </span>
+					<span>Dir: <input id="direction" type="text"></span>
 					<input type="submit" value="Place">
 				</form>
 				
 				<div class="button-container">
-					<button id="moveBtn" onclick="move()" disabled="true">Move</button>
 					<button id="leftBtn" onclick="turnLeft()" disabled="true">Turn Left</button>
+					<button id="moveBtn" onclick="move()" disabled="true">Move</button>
 					<button id="rightBtn" onclick="turnRight()" disabled="true">Turn Right</button>
 				</div>
 			</div>

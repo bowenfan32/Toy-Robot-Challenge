@@ -29,9 +29,11 @@ function place() {
     error.innerHTML = "";
     var x = document.getElementById("x-axis").value;
     var y = document.getElementById("y-axis").value;
-    if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
+    var dir = document.getElementById("direction").value.toUpperCase();
+
+    if (isValid(x, y, dir)) {
         clearRobot();
-        robot = new Robot(x * 100 + offset, y * 100 + offset, "NORTH");
+        robot = new Robot(x * 100 + offset, y * 100 + offset, dir);
         drawRobot(robot);
         document.getElementById("moveBtn").disabled = false;
         document.getElementById("rightBtn").disabled = false;
@@ -105,8 +107,6 @@ function turnLeft() {
 function parseCommand(command) {
     error.innerHTML = "";
     splitCommand = command.toUpperCase().split(" ");
-    console.log(splitCommand);
-
 
     switch(splitCommand[0]) {
         case "PLACE":
