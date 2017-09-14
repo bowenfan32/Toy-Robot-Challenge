@@ -12,10 +12,11 @@ document.getElementById("commandBtn").onclick = function() {
     parseCommand(document.getElementById("command").value);
 }
 
-
 function promptError(err) {
     error.innerHTML = err;
+    output.innerHTML = err;
 }
+    
 
 
 /*
@@ -42,58 +43,65 @@ function place() {
 
 function move() {
     error.innerHTML = "";
-    switch(robot.dir) {
-        case "NORTH":
-            if (!outOfBound(robot.y + 100)) {
-                clearRobot();
-                robot = new Robot(robot.x , robot.y + 100, robot.dir);
-                drawRobot(robot);
-            }
-            break;
-        case "EAST":
-            if (!outOfBound(robot.x + 100)) {
-                clearRobot();
-                robot = new Robot(robot.x + 100, robot.y, robot.dir);
-                drawRobot(robot);
-            }
-            break;
-        case "SOUTH":
-            if (!outOfBound(robot.y - 100)) {
-                clearRobot();
-                robot = new Robot(robot.x , robot.y - 100, robot.dir);
-                drawRobot(robot);
-            }
-            break;
-        case "WEST":
-            if (!outOfBound(robot.x - 100)) {
-                clearRobot();
-                robot = new Robot(robot.x - 100 , robot.y, robot.dir);
-                drawRobot(robot);
-            }
-            break;
+    if (robot != null) {
+        switch(robot.dir) {
+            case "NORTH":
+                if (!outOfBound(robot.y + 100)) {
+                    clearRobot();
+                    robot = new Robot(robot.x , robot.y + 100, robot.dir);
+                    drawRobot(robot);
+                }
+                break;
+            case "EAST":
+                if (!outOfBound(robot.x + 100)) {
+                    clearRobot();
+                    robot = new Robot(robot.x + 100, robot.y, robot.dir);
+                    drawRobot(robot);
+                }
+                break;
+            case "SOUTH":
+                if (!outOfBound(robot.y - 100)) {
+                    clearRobot();
+                    robot = new Robot(robot.x , robot.y - 100, robot.dir);
+                    drawRobot(robot);
+                }
+                break;
+            case "WEST":
+                if (!outOfBound(robot.x - 100)) {
+                    clearRobot();
+                    robot = new Robot(robot.x - 100 , robot.y, robot.dir);
+                    drawRobot(robot);
+                }
+                break;
+        }
     }
+    
 }
 
 function turnRight() {
-    var index = dir.indexOf(robot.dir);
-    // Go to next direction index in a clockwise fashion
-    if (index == 3) {
-        robot.dir = dir[0];
-    } else {
-        robot.dir = dir[index + 1];
+    if (robot != null) {
+        var index = dir.indexOf(robot.dir);
+        // Go to next direction index in a clockwise fashion
+        if (index == 3) {
+            robot.dir = dir[0];
+        } else {
+            robot.dir = dir[index + 1];
+        }
+        report();
     }
-    report();
 }
 
 function turnLeft() {
-    var index = dir.indexOf(robot.dir);
-    // Go to previous direction index in a counter clockwise fashion
-    if (index == 0) {
-        robot.dir = dir[3];
-    } else {
-        robot.dir = dir[index - 1];
+    if (robot != null) {
+        var index = dir.indexOf(robot.dir);
+        // Go to previous direction index in a counter clockwise fashion
+        if (index == 0) {
+            robot.dir = dir[3];
+        } else {
+            robot.dir = dir[index - 1];
+        }
+        report();
     }
-    report();
 }
 
 function report() {
@@ -134,6 +142,9 @@ function parseCommand(command) {
         case "RIGHT":
             turnRight();
             break;
+        default:
+            promptError("Please enter valid command");
+            break;
     }
 }
 
@@ -165,6 +176,51 @@ function outOfBound(newMove) {
 }
 
 
+
+/*
+ Tests
+*/
+function runTest() {
+    // Split into lines
+    var lines = document.getElementById("testarea").value.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+        var splitCommand = lines[i].toUpperCase().split(" ");
+        switch(splitCommand[0]) {
+            case "PLACE":
+                var position = splitCommand[1].split(",");
+                var x = position[0];
+                var y = position[1];
+                var dir = position[2];
+                if (isValid(x, y, dir)) {
+                    clearRobot();
+                    robot = new Robot(x * 100 + offset, y * 100 + offset, dir);
+                    console.log(robot);
+                } 
+                break;
+            case "MOVE":
+                move();
+                break;
+            case "LEFT":
+                turnLeft();
+                break;
+            case "RIGHT":
+                turnRight();
+                break;
+            case "REPORT":
+                report();
+                break;
+            default:
+                promptError("Please enter valid command");
+                break;
+        }
+            var output = document.getElementById("output");  
+    output.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
+    
+    }
+
+}
+
+
 /*
  Initialization
 */
@@ -172,7 +228,6 @@ function outOfBound(newMove) {
 function init() { 
 
     // Initialize canvas
-    robot = new Robot(0 + offset, 0 + offset, "NORTH");
     for (var x = 1; x < 601; x += 100) {
         context.moveTo(x, 1);
         context.lineTo(x, 501);
@@ -196,7 +251,9 @@ function Robot(x, y, dir) {
 }
 
 function clearRobot() {
-    context.clearRect(robot.x , robot.y, 80, 80);
+    if (robot != null) {
+        context.clearRect(robot.x , robot.y, 80, 80);
+    }
 }
 
 function drawRobot(newRobot) {
