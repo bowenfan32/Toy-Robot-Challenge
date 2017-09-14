@@ -3,7 +3,6 @@ var robot = null;
 var offset = 10;
 var dir = ["NORTH", "EAST", "SOUTH", "WEST"];
 
-
 var error = document.getElementById("error");
 var canvas = document.getElementById("canvas");
 var reportField = document.getElementById("report");
@@ -18,37 +17,28 @@ function promptError(err) {
     error.innerHTML = err;
 }
 
-function outOfBound(newMove) {
-    if (newMove > 410 || newMove < 10) {
-        promptError("You shall not pass!");
-        return true;
-    } else return false;
-}
+
+/*
+ Core functions
+*/
 
 function place() {
-    error.innerHTML = "";
+    error.innerHTML = ""; // Clears previous error
     var x = document.getElementById("x-axis").value;
     var y = document.getElementById("y-axis").value;
     var dir = document.getElementById("direction").value.toUpperCase();
 
-    if (isValid(x, y, dir)) {
-        clearRobot();
+    if (isValid(x, y, dir)) { // Validates input values
+        clearRobot(); // Clear previous drawing
         robot = new Robot(x * 100 + offset, y * 100 + offset, dir);
         drawRobot(robot);
+        // Enable control buttons after robot has been placed
         document.getElementById("moveBtn").disabled = false;
         document.getElementById("rightBtn").disabled = false;
         document.getElementById("leftBtn").disabled = false;
-        return false; // Prevent page refresh
-    } else {
-        promptError("Index out of bound!");
-        return false;
-    }
+    } 
+    return false; // Prevent page refresh
 }
-
-function report() {
-    reportField.innerHTML = (robot.x - 10) / 100 + ", " + (robot.y - 10) / 100 + ", " + robot.dir;
-}
-
 
 function move() {
     error.innerHTML = "";
@@ -86,6 +76,7 @@ function move() {
 
 function turnRight() {
     var index = dir.indexOf(robot.dir);
+    // Go to next direction index in a clockwise fashion
     if (index == 3) {
         robot.dir = dir[0];
     } else {
@@ -96,6 +87,7 @@ function turnRight() {
 
 function turnLeft() {
     var index = dir.indexOf(robot.dir);
+    // Go to previous direction index in a counter clockwise fashion
     if (index == 0) {
         robot.dir = dir[3];
     } else {
@@ -103,6 +95,15 @@ function turnLeft() {
     }
     report();
 }
+
+function report() {
+    reportField.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
+}
+
+
+/*
+ Processes input command
+*/
 
 function parseCommand(command) {
     error.innerHTML = "";
@@ -136,21 +137,41 @@ function parseCommand(command) {
     }
 }
 
+
+/*
+ Input Validation
+*/
+
 function isValid(x, y, direction) {
-    if (isNaN(x) || isNaN(y)) {
+    if (isNaN(x) || isNaN(y)) { // Check if value is numeric
         promptError("Please enter valid number!");
         return false;
-    } else if (x < 0 || x > 4 || y < 0 || y > 4) {
+    } else if (x < 0 || x > 4 || y < 0 || y > 4) { // Check index range
+        promptError("Index out of bound");
         return false;
-    } else if (!dir.includes(direction)) {
+    } else if (!dir.includes(direction)) { // Check direction is valid
         promptError("Please enter valid direction!");
         return false
     }
     else return true;
 }
 
+// Check if a new move is out of bound
+function outOfBound(newMove) {
+    if (newMove > 410 || newMove < 10) {
+        promptError("You shall not pass!");
+        return true;
+    } else return false;
+}
 
-function init() {
+
+/*
+ Initialization
+*/
+
+function init() { 
+
+    // Initialize canvas
     robot = new Robot(0 + offset, 0 + offset, "NORTH");
     for (var x = 1; x < 601; x += 100) {
         context.moveTo(x, 1);
@@ -164,6 +185,7 @@ function init() {
 
     context.strokeStyle = "#000";
     context.stroke();
+    // Flips Y axis
     context.transform(1, 0, 0, -1, 0, canvas.height); 
 }
 
