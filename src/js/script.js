@@ -13,30 +13,44 @@ function promptError(err) {
     error.innerHTML = err;
 }
 
+function outOfBound(newMove) {
+    if (newMove > 410 || newMove < 10) {
+        promptError("You shall not pass!");
+        return true;
+    } else return false;
+}
+
 
 function move() {
-   
+    error.innerHTML = "";
     switch(robot.dir) {
-
         case "NORTH":
-            clearRobot();
-            robot = new Robot(robot.x , robot.y + 100, robot.dir);
-            drawRobot(robot);
+            if (!outOfBound(robot.y + 100)) {
+                clearRobot();
+                robot = new Robot(robot.x , robot.y + 100, robot.dir);
+                drawRobot(robot);
+            }
             break;
         case "EAST":
-            clearRobot();
-            robot = new Robot(robot.x + 100, robot.y, robot.dir);
-            drawRobot(robot);
+            if (!outOfBound(robot.x + 100)) {
+                clearRobot();
+                robot = new Robot(robot.x + 100, robot.y, robot.dir);
+                drawRobot(robot);
+            }
             break;
         case "SOUTH":
-            clearRobot();
-            robot = new Robot(robot.x, robot.y - 100, robot.dir);
-            drawRobot(robot);
+            if (!outOfBound(robot.y - 100)) {
+                clearRobot();
+                robot = new Robot(robot.x , robot.y - 100, robot.dir);
+                drawRobot(robot);
+            }
             break;
         case "WEST":
-            clearRobot();
-            robot = new Robot(robot.x - 100, robot.y, robot.dir);
-            drawRobot(robot);
+            if (!outOfBound(robot.x - 100)) {
+                clearRobot();
+                robot = new Robot(robot.x - 100 , robot.y, robot.dir);
+                drawRobot(robot);
+            }
             break;
     }
 }
