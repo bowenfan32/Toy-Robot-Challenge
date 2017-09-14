@@ -1,6 +1,7 @@
 
 var robot = null;
-
+var offset = 10;
+var dir = ["NORTH", "EAST", "SOUTH", "WEST"];
 
 
 var error = document.getElementById("error");
@@ -8,9 +9,9 @@ var canvas = document.getElementById("canvas");
 var reportField = document.getElementById("report");
 var img = document.getElementById("img-robot");
 var context = canvas.getContext("2d");
-var offset = 10;
-
-var dir = ["NORTH", "EAST", "SOUTH", "WEST"];
+document.getElementById("commandBtn").onclick = function() {
+    parseCommand(document.getElementById("command").value);
+}
 
 
 function promptError(err) {
@@ -28,7 +29,7 @@ function place() {
     error.innerHTML = "";
     var x = document.getElementById("x-axis").value;
     var y = document.getElementById("y-axis").value;
-    if (x >= 0 && x <=4 && y >=0 && y <=4) {
+    if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
         clearRobot();
         robot = new Robot(x * 100 + offset, y * 100 + offset, "NORTH");
         drawRobot(robot);
@@ -101,6 +102,53 @@ function turnLeft() {
     report();
 }
 
+function parseCommand(command) {
+    error.innerHTML = "";
+    splitCommand = command.toUpperCase().split(" ");
+    console.log(splitCommand);
+
+
+    switch(splitCommand[0]) {
+        case "PLACE":
+            var position = splitCommand[1].split(",");
+            var x = position[0];
+            var y = position[1];
+            var dir = position[2];
+            if (isValid(x, y, dir)) {
+                clearRobot();
+                robot = new Robot(x * 100 + offset, y * 100 + offset, dir);
+                drawRobot(robot);
+                document.getElementById("moveBtn").disabled = false;
+                document.getElementById("rightBtn").disabled = false;
+                document.getElementById("leftBtn").disabled = false;
+                return false; // Prevent page refresh
+            } 
+            break;
+        case "MOVE":
+            move();
+            break;
+        case "LEFT":
+            turnLeft();
+            break;
+        case "RIGHT":
+            turnRight();
+            break;
+    }
+}
+
+function isValid(x, y, direction) {
+    if (isNaN(x) || isNaN(y)) {
+        promptError("Please enter valid number!");
+        return false;
+    } else if (x < 0 && x > 4 && y < 0 && y > 4) {
+        return false;
+    } else if (!dir.includes(direction)) {
+        promptError("Please enter valid direction!");
+        return false
+    }
+    else return true;
+}
+
 
 function init() {
     robot = new Robot(0 + offset, 0 + offset, "NORTH");
@@ -116,7 +164,7 @@ function init() {
 
     context.strokeStyle = "#000";
     context.stroke();
-    context.transform(1, 0, 0, -1, 0, canvas.height)
+    context.transform(1, 0, 0, -1, 0, canvas.height); 
 }
 
 function Robot(x, y, dir) {

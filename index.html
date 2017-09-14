@@ -17,7 +17,8 @@
 			<div> 
 				<strong>Type command here: </strong>
 
-			    <input type="text" id="command" onfocusout="processCommand(this.value)" onkeydown="if (event.keyCode == 13) processCommand(this.value);"> 
+			    <input type="text" id="command" onkeydown="if (event.keyCode == 13) parseCommand(this.value);"> 
+			    <button id="commandBtn">Enter</button>
 			    <span id="error"></span>
 
 
