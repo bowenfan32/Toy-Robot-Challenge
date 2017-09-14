@@ -75,7 +75,6 @@ function move() {
     } else {
         promptError("Please place robot first!");
     }
-    
 }
 
 function turnRight() {
@@ -114,7 +113,6 @@ function report() {
     } else {
         promptError("Please place robot first!");
     }
-    
 }
 
 
