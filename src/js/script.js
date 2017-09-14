@@ -3,6 +3,7 @@ var robot = null;
 
 var error = document.getElementById("error");
 var canvas = document.getElementById("canvas");
+var reportField = document.getElementById("report");
 var img = document.getElementById("img-robot");
 var context = canvas.getContext("2d");
 var offset = 10;
@@ -34,6 +35,10 @@ function place() {
         promptError("Index out of bound!");
         return false;
     }
+}
+
+function report() {
+    reportField.innerHTML = (robot.x - 10) / 100 + ", " + (robot.y - 10) / 100 + ", " + robot.dir;
 }
 
 
@@ -78,6 +83,7 @@ function turnRight() {
     } else {
         robot.dir = dir[index + 1];
     }
+    report();
 }
 
 function turnLeft() {
@@ -87,6 +93,7 @@ function turnLeft() {
     } else {
         robot.dir = dir[index - 1];
     }
+    report();
 }
 
 
@@ -105,7 +112,6 @@ function init() {
     context.strokeStyle = "#000";
     context.stroke();
     context.transform(1, 0, 0, -1, 0, canvas.height)
-    // drawRobot(robot);
 }
 
 function Robot(x, y, dir) {
@@ -120,12 +126,12 @@ function clearRobot() {
 
 function drawRobot(newRobot) {
     // context.scale(1, -1);
-// context.save();
+    // context.save();
     // context.translate(50, 50);
     // context.scale(1, -1);
 
      context.drawImage(img, robot.x + 5, robot.y + 5, 80, 80);
-
+     report();
 }
 
 init();
