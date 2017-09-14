@@ -194,7 +194,7 @@ function runTest() {
                 if (isValid(x, y, dir)) {
                     clearRobot();
                     robot = new Robot(x * 100 + offset, y * 100 + offset, dir);
-                    console.log(robot);
+                    drawRobot(robot);
                 } 
                 break;
             case "MOVE":
@@ -208,14 +208,14 @@ function runTest() {
                 break;
             case "REPORT":
                 report();
+                var output = document.getElementById("output");  
+                output.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
                 break;
             default:
                 promptError("Please enter valid command");
                 break;
         }
-            var output = document.getElementById("output");  
-    output.innerHTML = (robot.x - offset) / 100 + "," + (robot.y - offset) / 100 + "," + robot.dir;
-    
+
     }
 
 }
